@@ -1,13 +1,15 @@
 /*========= LocalStorage ========= */
-const characters = JSON.parse(localStorage.getItem('characters')) || []
+let characters = JSON.parse(localStorage.getItem('characters')) || []
 
 /*========= Variables ========= */
+let oldArray;
 let pageNumber  = 0;
 let isLoadingMoreResults = false;
 
 /*========= Functions ========= */
 const getCharacters =  async () => {
     pageNumber++
+
     const url  = `https://rickandmortyapi.com/api/character?page=${pageNumber}`
     const response = await fetch(url)
     const data = await response.json()
@@ -23,10 +25,15 @@ const getCharacters =  async () => {
     }
 }
 
+const filterCharacters = () => {
+    const filtered_results = characters.filter(character => character.name.toLowerCase().includes(searchbar.value.toLowerCase()))
+    localStorage.setItem('characters', JSON.stringify(filtered_results))
+    renderCharacterCard(filtered_results)
+}
+
 const renderCharacterCard  = characters => {
     const characters_container = document.querySelector('.characters')
 
-    searchbar.value = ''
     characters_container.innerHTML = ''
 
     for(const character of characters) {
@@ -50,8 +57,7 @@ const renderCharacterCard  = characters => {
 /*========= Event Listeners ========= */
 const searchbar = document.querySelector('.searchbar')
 searchbar.addEventListener('input', () => {
-    const filtered_results = characters.filter(character => character.name == "Rick Sanchez")
-    console.log(filtered_results)
+    filterCharacters()
 })
 
 const load_more_btn = document.querySelector('.load-more-btn')
@@ -61,5 +67,6 @@ load_more_btn.addEventListener('click', () => {
 })
 
 /*========= Functions Calls ========= */
+searchbar.value = ''
 getCharacters()
 renderCharacterCard(characters)
