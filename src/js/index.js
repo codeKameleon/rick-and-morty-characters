@@ -1,9 +1,11 @@
+/*========= LocalStorage ========= */
 const characters = JSON.parse(localStorage.getItem('characters')) || []
-const characters_container = document.querySelector('.characters')
 
+/*========= Variables ========= */
 let pageNumber  = 0;
 let isLoadingMoreResults = false;
 
+/*========= Functions ========= */
 const getCharacters =  async () => {
     pageNumber++
     const url  = `https://rickandmortyapi.com/api/character?page=${pageNumber}`
@@ -18,23 +20,12 @@ const getCharacters =  async () => {
     
         localStorage.setItem('characters', JSON.stringify(characters))
         renderCharacterCard(characters)
-
     }
 }
 
-const searchbar = document.querySelector('.searchbar')
-searchbar.addEventListener('input', () => {
-    const filtered_results = characters.filter(character => character.name == "Rick Sanchez")
-    console.log(filtered_results)
-})
+const renderCharacterCard  = characters => {
+    const characters_container = document.querySelector('.characters')
 
-const load_more_btn = document.querySelector('.load-more-btn')
-load_more_btn.addEventListener('click', () => {
-    isLoadingMoreResults = true
-    getCharacters()
-})
-
-renderCharacterCard  = characters => {
     searchbar.value = ''
     characters_container.innerHTML = ''
 
@@ -56,5 +47,19 @@ renderCharacterCard  = characters => {
     }
 }
 
+/*========= Event Listeners ========= */
+const searchbar = document.querySelector('.searchbar')
+searchbar.addEventListener('input', () => {
+    const filtered_results = characters.filter(character => character.name == "Rick Sanchez")
+    console.log(filtered_results)
+})
+
+const load_more_btn = document.querySelector('.load-more-btn')
+load_more_btn.addEventListener('click', () => {
+    isLoadingMoreResults = true
+    getCharacters()
+})
+
+/*========= Functions Calls ========= */
 getCharacters()
 renderCharacterCard(characters)
