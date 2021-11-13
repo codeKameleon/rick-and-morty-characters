@@ -8,8 +8,15 @@
     align-items: center;
 }
 
+/*================= Variables -  Colors =================*/
+$light-grey: rgba(0, 0, 0, 0.12);
+$dark-grey: #202329;
+$white: #fefefe;
+
+
 /*================= Variables -  Typos =================*/
 $primary-font: 'Roboto', sans-serif;
+
 
 /*================= Main CSS =================*/
 * {
@@ -29,21 +36,62 @@ body {
 header {
     @extend .flex-center;
     flex-direction: column;
-    padding: 1rem;
+    padding: 2rem;
     background-color: #97ce4c ;
-    color: #fff;
+    color: $white;
+
+    .search {
+        position: relative;
+        // overflow: hidden;
+        z-index: 2;
+        width: 40%;
+    }
 
     .searchbar {
-        width: 40%;
-        padding: 1rem;
+        position: relative;
+        z-index: 10;
+        width: 100%;
+        height: 3rem;
+        padding: 0 1rem;
         border: none;
         outline: none;
         transition: all .3s;
 
         &:focus {
-            color: #fff;
-            background-color: #202329;
+            color: $white;
+            background-color: $dark-grey;
         }
+    }
+
+    .autocomplete-results {
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        right: 0;
+        max-height: 300px;
+        overflow-y: scroll;
+        margin: .3rem 0 0 0;
+        padding: 0;
+        opacity: 0;
+        background-color: $dark-grey;
+        list-style-type: none;
+        transition: all .2s
+    }
+
+    .autocomplete-result {
+        color: $white;
+        padding: 1rem;
+        &:hover {
+            background: $light-grey;
+            cursor: default;
+        }
+    }
+
+    .show-autocomplete {
+        z-index: 9;
+        transform: translateY(3rem);
+        opacity: 1;
     }
 }
 
@@ -69,7 +117,7 @@ section {
     .character-card {
         display: flex;
         flex-direction: column;
-        border: 2px solid #333;
+        border: 2px solid $dark-grey;
         padding: .4rem;
     }
 
@@ -80,7 +128,12 @@ section {
 
 footer {
     @extend .flex-center;
-    background-color:#202329;
+    background-color: $dark-grey;
     color: #fff;
+
+    & a {
+        color: #fff;
+    }
+
 }
 
