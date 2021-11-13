@@ -460,6 +460,10 @@ function hmrAcceptRun(bundle, id) {
 
 },{}],"3auaO":[function(require,module,exports) {
 /*========= LocalStorage ========= */ let characters1 = JSON.parse(localStorage.getItem('characters')) || [];
+/*========= DOM elements ========= */ const searchbar = document.querySelector('.searchbar');
+const autocomplete_container = document.querySelector('.autocomplete-results');
+const characters_container = document.querySelector('.characters');
+const load_more_btn = document.querySelector('.load-more-btn');
 /*========= Variables ========= */ let oldArray;
 let pageNumber = 0;
 let isLoadingMoreResults = false;
@@ -482,7 +486,6 @@ const filterCharacters = ()=>{
     renderCharacterCard(filtered_results);
 };
 const renderCharacterCard = (characters)=>{
-    const characters_container = document.querySelector('.characters');
     characters_container.innerHTML = '';
     for (const character of characters){
         const character_card = document.createElement('div');
@@ -498,14 +501,35 @@ const renderCharacterCard = (characters)=>{
         characters_container.appendChild(character_card);
     }
 };
-/*========= Event Listeners ========= */ const searchbar = document.querySelector('.searchbar');
-searchbar.addEventListener('input', ()=>{
+const searchAutoComplete = ()=>{
+    const search_value = searchbar.value;
+    const suggestions = characters1.filter((character)=>character.name.toLowerCase().includes(search_value.toLowerCase())
+    );
+    for (const suggestion of suggestions){
+        const autocomplete_result = document.createElement('li');
+        autocomplete_result.textContent = suggestion.name;
+        autocomplete_result.className = 'autocomplete-result';
+        autocomplete_result.addEventListener('click', (e)=>{
+            searchbar.value = e.target.textContent;
+            filterCharacters();
+            autocomplete_container.classList.remove('show-autocomplete');
+        });
+        autocomplete_container.appendChild(autocomplete_result);
+    }
+    autocomplete_container.classList.add('show-autocomplete');
+};
+/*========= Event Listeners ========= */ searchbar.addEventListener('input', ()=>{
     filterCharacters();
+    searchAutoComplete();
 });
-const load_more_btn = document.querySelector('.load-more-btn');
 load_more_btn.addEventListener('click', ()=>{
     isLoadingMoreResults = true;
     getCharacters();
+});
+// Click outside input search closing the aucomplete results
+document.addEventListener('click', (e)=>{
+    let isClickInsideSearchbar = searchbar.contains(e.target);
+    if (!isClickInsideSearchbar) autocomplete_container.classList.remove('show-autocomplete');
 });
 /*========= Functions Calls ========= */ searchbar.value = '';
 getCharacters();
