@@ -111,18 +111,27 @@ section {
 .characters {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-gap: .5rem;
+    grid-gap: .8rem;
     padding: 2rem;
 
     .character-card {
         display: flex;
-        flex-direction: column;
+        height: 250px;
         border: 2px solid $dark-grey;
-        padding: .4rem;
+    }
+
+    .character-details {
+        display: flex;
+        flex-direction: column;
+        padding: 1rem;
     }
 
     .character-species {
         font-size: .8rem;
+    }
+
+    .chracter-image {
+        height: 100%;
     }
 }
 

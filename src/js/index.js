@@ -1,3 +1,5 @@
+console.log('test')
+
 /*========= LocalStorage ========= */
 let characters = JSON.parse(localStorage.getItem('characters')) || []
 
@@ -33,7 +35,6 @@ const getCharacters =  async () => {
 
 const filterCharacters = () => {
     const filtered_results = characters.filter(character => character.name.toLowerCase().includes(searchbar.value.toLowerCase()))
-    localStorage.setItem('characters', JSON.stringify(filtered_results))
     renderCharacterCard(filtered_results)
 }
 
@@ -41,8 +42,16 @@ const renderCharacterCard  = characters => {
     characters_container.innerHTML = ''
 
     for(const character of characters) {
+        console.log('character image url', character.image)
         const character_card =  document.createElement('div')
         character_card.className =  'character-card'
+
+        const character_image  = document.createElement('img')
+        character_image.className  = 'character-image'
+        character_image.src = character.image
+
+        const character_details = document.createElement('div')
+        character_details.className =  'character-details'
         
         const character_name =  document.createElement('span')
         character_name.className = 'character-name'
@@ -52,8 +61,11 @@ const renderCharacterCard  = characters => {
         character_species.className = 'character-species'
         character_species.textContent = character.species
 
-        character_card.appendChild(character_name)
-        character_card.appendChild(character_species)
+        character_details.appendChild(character_name)
+        character_details.appendChild(character_species)
+
+        character_card.appendChild(character_image)
+        character_card.appendChild(character_details)
         characters_container.appendChild(character_card)
     }
 }
