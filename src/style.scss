@@ -1,5 +1,5 @@
 /*================= Fonts imports  =================*/
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300;400&display=swap');
 
 /*================= Predefined styles =================*/
 .flex-center {
@@ -10,13 +10,16 @@
 
 /*================= Variables -  Colors =================*/
 $light-grey: rgba(0, 0, 0, 0.12);
-$dark-grey: #202329;
+$grey: #929FA5;
+$dark-grey: #50595E;
 $white: #fefefe;
 
+$blue : #16ACC9;
+
+$yellow: #D3DB4B;
 
 /*================= Variables -  Typos =================*/
-$primary-font: 'Roboto', sans-serif;
-
+$primary-font: 'Merriweather Sans', sans-serif;
 
 /*================= Main CSS =================*/
 * {
@@ -29,6 +32,7 @@ body {
     min-height: 100vh;
     margin: 0;
     padding: 0;
+    background-color: $dark-grey;
     font-family: $primary-font;
     font-size: 16px;
 }
@@ -37,7 +41,7 @@ header {
     @extend .flex-center;
     flex-direction: column;
     padding: 2rem;
-    background-color: #97ce4c ;
+    background-color: $blue;
     color: $white;
 
     .search {
@@ -110,14 +114,21 @@ section {
 
 .characters {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(1, 1fr);
     grid-gap: .8rem;
     padding: 2rem;
+
+    @media screen and (min-width: 960px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
 
     .character-card {
         display: flex;
         height: 250px;
-        border: 2px solid $dark-grey;
+        background-color: $grey;
+        color: $white;
+        border-radius: .3rem;
+        overflow: hidden;
     }
 
     .character-details {
@@ -127,12 +138,35 @@ section {
     }
 
     .character-species {
+        margin-bottom: .5rem;
         font-size: .8rem;
     }
 
-    .chracter-image {
+    .character-image {
         height: 100%;
     }
+
+    .character-location-wrapper,
+    .character-episode-wrapper {
+        display: flex;
+        flex-direction: column;
+        margin: 1rem 0;
+    }
+
+    .character-location-label,
+    .character-episode-label {
+        margin-bottom: .3rem;
+        font-weight: 300;
+    }
+}
+
+.load-more-btn {
+    padding: .5rem;
+    background-color: $blue;
+    border: 2px solid $dark-grey;
+    font-family: $primary-font;
+    color: $white;
+    cursor: pointer;
 }
 
 footer {

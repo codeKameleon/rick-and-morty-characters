@@ -1,5 +1,3 @@
-console.log('test')
-
 /*========= LocalStorage ========= */
 let characters = JSON.parse(localStorage.getItem('characters')) || []
 
@@ -20,6 +18,7 @@ const getCharacters =  async () => {
 
     const url  = `https://rickandmortyapi.com/api/character?page=${pageNumber}`
     const response = await fetch(url)
+    console.log(response)
     const data = await response.json()
     const all_characters = data.results
 
@@ -42,10 +41,10 @@ const renderCharacterCard  = characters => {
     characters_container.innerHTML = ''
 
     for(const character of characters) {
-        console.log('character image url', character.image)
         const character_card =  document.createElement('div')
         character_card.className =  'character-card'
 
+        // Image
         const character_image  = document.createElement('img')
         character_image.className  = 'character-image'
         character_image.src = character.image
@@ -53,16 +52,59 @@ const renderCharacterCard  = characters => {
         const character_details = document.createElement('div')
         character_details.className =  'character-details'
         
+        // Name
         const character_name =  document.createElement('span')
         character_name.className = 'character-name'
         character_name.textContent = character.name
 
+        // Species
         const character_species =  document.createElement('span')
         character_species.className = 'character-species'
         character_species.textContent = character.species
 
+        // Last known location
+        const character_location_wrapper = document.createElement('div')
+        character_location_wrapper.className = 'character-location-wrapper'
+
+        const character_location_label = document.createElement('span')
+        character_location_label.className =  'character-location-label'
+        character_location_label.textContent = 'Last known location : '
+
+        const character_location =  document.createElement('span')
+        character_location.textContent = character.location.name
+
+        // Episode in which the character was first seen
+        const character_episode_wrapper = document.createElement('div')
+        character_episode_wrapper.className = 'character-episode-wrapper'
+
+        const character_episode_label = document.createElement('span')
+        character_episode_label.className =  'character-episode-label'
+        character_episode_label.textContent = 'First seen in : '
+
+        const character_episode =  document.createElement('span')
+
+        const getEpisode = async () => {
+            const url = character.episode[0]
+            const response = await fetch(url)
+            const data = await response.json()
+            const episode = [data.name, data.episode]
+            character_episode.textContent = `${episode[0]}  (${episode [1]})`
+
+            return episode
+        }
+
+        getEpisode()
+
+        character_episode_wrapper.appendChild(character_episode_label)
+        character_episode_wrapper.appendChild(character_episode)
+
+        character_location_wrapper.appendChild(character_location_label)
+        character_location_wrapper.appendChild(character_location)
+
         character_details.appendChild(character_name)
         character_details.appendChild(character_species)
+        character_details.appendChild(character_location_wrapper)
+        character_details.appendChild(character_episode_wrapper)
 
         character_card.appendChild(character_image)
         character_card.appendChild(character_details)
