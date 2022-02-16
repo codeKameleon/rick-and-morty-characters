@@ -172,6 +172,11 @@ section {
     }
 }
 
+.no-results {
+    display: none;
+    color: $white;
+}
+
 .load-more-btn {
     padding: .5rem;
     background-color: $blue;
