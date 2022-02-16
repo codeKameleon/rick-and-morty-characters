@@ -18,7 +18,6 @@ const getCharacters =  async () => {
 
     const url  = `https://rickandmortyapi.com/api/character?page=${pageNumber}`
     const response = await fetch(url)
-    console.log(response)
     const data = await response.json()
     const all_characters = data.results
 
@@ -115,8 +114,11 @@ const renderCharacterCard  = characters => {
 const searchAutoComplete = () => {
     const search_value = searchbar.value
     const suggestions = characters.filter(character => character.name.toLowerCase().includes(search_value.toLowerCase()))
+    
+    autocomplete_container.innerHTML = ""
 
     for(const suggestion of suggestions) {
+
         const autocomplete_result = document.createElement('li')
 
         autocomplete_result.textContent = suggestion.name
