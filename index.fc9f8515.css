@@ -141,6 +141,10 @@ section {
   margin-bottom: 0.3rem;
   font-weight: 300;
 }
+.no-results {
+  display: none;
+  color: #fefefe;
+}
 .load-more-btn {
   padding: 0.5rem;
   background-color: #16ACC9;

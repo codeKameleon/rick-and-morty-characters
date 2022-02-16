@@ -464,7 +464,9 @@ function hmrAcceptRun(bundle, id) {
 const autocomplete_container = document.querySelector('.autocomplete-results');
 const characters_container = document.querySelector('.characters');
 const load_more_btn = document.querySelector('.load-more-btn');
+const no_results = document.querySelector('.no-results');
 /*========= Variables ========= */ let oldArray;
+let filtered_results;
 let pageNumber = 0;
 let isLoadingMoreResults = false;
 /*========= Functions ========= */ const getCharacters = async ()=>{
@@ -480,7 +482,7 @@ let isLoadingMoreResults = false;
     }
 };
 const filterCharacters = ()=>{
-    const filtered_results = characters1.filter((character)=>character.name.toLowerCase().includes(searchbar.value.toLowerCase())
+    filtered_results = characters1.filter((character)=>character.name.toLowerCase().includes(searchbar.value.toLowerCase())
     );
     renderCharacterCard(filtered_results);
 };
@@ -564,6 +566,13 @@ const searchAutoComplete = ()=>{
 /*========= Event Listeners ========= */ searchbar.addEventListener('input', ()=>{
     filterCharacters();
     searchAutoComplete();
+    if (filtered_results.length === 0) {
+        load_more_btn.style.display = 'none';
+        no_results.style.display = 'block';
+    } else {
+        load_more_btn.style.display = 'block';
+        no_results.style.display = 'none';
+    }
 });
 load_more_btn.addEventListener('click', ()=>{
     isLoadingMoreResults = true;
